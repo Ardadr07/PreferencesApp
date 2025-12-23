@@ -1,8 +1,12 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../hooks/useTheme'; 
 
 export default function HomeScreen({ navigation }) {
-  const { user, logout } = useAuth(); // User verisini ve logout'u çektik
+  const { user, logout } = useAuth();
+  const { theme } = useTheme(); 
+  
+  const isDark = theme === 'dark';
 
   const handleLogout = () => {
     logout();
@@ -10,8 +14,12 @@ export default function HomeScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Hoş geldin, {user?.username}!</Text>
+    // Arka plan rengini isDark'a göre ayarlı
+    <View style={[styles.container, { backgroundColor: isDark ? '#1a1a1a' : '#fff' }]}>
+      
+      <Text style={[styles.text, { color: isDark ? '#fff' : '#000' }]}>
+        Hoş geldin, {user?.username}!
+      </Text>
       
       <Pressable style={styles.logoutButton} onPress={handleLogout}>
         <Text style={styles.logoutText}>Çıkış Yap</Text>
@@ -21,7 +29,9 @@ export default function HomeScreen({ navigation }) {
         style={styles.settingsButton} 
         onPress={() => navigation.navigate('Settings')}
       >
-        <Text style={styles.settingsText}>Ayarlara Git</Text>
+        <Text style={[styles.settingsText, { color: isDark ? '#4da6ff' : '#007AFF' }]}>
+          Ayarlara Git
+        </Text>
       </Pressable>
     </View>
   );

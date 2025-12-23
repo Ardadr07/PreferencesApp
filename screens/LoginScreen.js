@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { View, Text, TextInput, Pressable, StyleSheet, Alert } from 'react-native';
-import { useAuth } from '../context/AuthContext'; // Hook'u çektik
+import { useAuth } from '../context/AuthContext'; 
 
 export default function LoginScreen({ navigation }) {
   const [username, setUsername] = useState('');
