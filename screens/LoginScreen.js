@@ -1,23 +1,24 @@
 import { useState } from 'react';
 import { View, Text, TextInput, Pressable, StyleSheet, Alert } from 'react-native';
+import { useAuth } from '../context/AuthContext'; // Hook'u çektik
 
 export default function LoginScreen({ navigation }) {
   const [username, setUsername] = useState('');
+  const { login } = useAuth(); // Context'ten login fonksiyonunu aldık
 
   const handleLogin = () => {
-    // Boşlukları temizle ve boş mu kontrol et
     if (!username.trim()) {
       Alert.alert('Uyarı', 'Lütfen bir kullanıcı adı girin.');
       return;
     }
-    // Geri dönülemesin diye 'navigate' yerine 'replace' kullanıyoruz
-    navigation.replace('Home', { username });
+    
+    login(username); // Global state'i güncelliyoruz
+    navigation.replace('Home'); // Parametre göndermeye gerek kalmadı
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Giriş Yap</Text>
-      
       <TextInput
         placeholder="Kullanıcı Adı"
         value={username}
@@ -25,7 +26,6 @@ export default function LoginScreen({ navigation }) {
         style={styles.input}
         autoCapitalize="none"
       />
-      
       <Pressable style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Giriş</Text>
       </Pressable>
